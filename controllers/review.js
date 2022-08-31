@@ -9,8 +9,8 @@ const createReview = async (req, res) =>{
     };
     req.body.user = req.user.userId;
 
-    const oldReview = await Review.findOne({product: req.body.product, user: req.user.userId});
-    if(oldReview){
+    const alreadySubmitted = await Review.findOne({product: req.body.product, user: req.user.userId});
+    if(alreadySubmitted){
         throw new BadRequestError('You already have a review for this product. You may update the review');
     }
 

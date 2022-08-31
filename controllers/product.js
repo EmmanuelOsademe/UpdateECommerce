@@ -108,6 +108,7 @@ const updateProduct = async (req, res) =>{
     }
 
     const product = await Product.findOneAndUpdate({_id: productId}, req.body, {new: true, runValidators: true});
+    
 
     if(!product){
         throw new NotFoundError(`No Product with ID: ${productId}`);
@@ -139,6 +140,7 @@ const uploadImage = async (req, res)=>{
         throw new BadRequestError('Please provide product ID');
     }
     const product = await Product.findOne({_id: productId});
+    //console.log(req.file.path);
     if(!product){
         throw new NotFoundError(`No product with ID: ${productId}`);
     };
@@ -146,10 +148,11 @@ const uploadImage = async (req, res)=>{
     if(product.cloudinaryId){
         throw new BadRequestError(`Image already exist for product. You can update the image`);
     }
-    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {user_filename: true});
+    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {use_filename: true});
+    console.log(uploadedImage);
 
     product.image = uploadedImage.secure_url;
-    product.cloudinaryId = result.public_id;
+    product.cloudinaryId = uploadedImage.public_id;
     
     await product.save();
     res.status(StatusCodes.OK).json({product});
@@ -160,13 +163,13 @@ const updateImage = async (req, res) =>{
     if(!productId){
         throw new BadRequestError('Please provide Product ID');
     }
-    const product = await Product.findOne({productId});
+    const product = await Product.findOne({_id:productId});
     if(!product){
         throw new NotFoundError(`No Product with ID: ${productId}`);
     }
 
     await cloudinary.uploader.destroy(product.cloudinaryId);
-    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {user_filename: true});
+    const uploadedImage = await cloudinary.uploader.upload(req.file.path, {use_filename: true});
     product.image = uploadedImage.secure_url;
     product.cloudinaryId = uploadedImage.public_id;
 

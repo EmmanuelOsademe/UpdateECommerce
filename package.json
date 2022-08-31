@@ -1,7 +1,6 @@
 {
   "name": "final-backend",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -30,5 +29,15 @@
     "stripe": "^10.6.0",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmmanuelOsademe/UpdateECommerce.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/EmmanuelOsademe/UpdateECommerce/issues"
+  },
+  "homepage": "https://github.com/EmmanuelOsademe/UpdateECommerce#readme",
+  "description": ""
 }
